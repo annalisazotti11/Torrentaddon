@@ -1,37 +1,15 @@
-DeepSearch Personale v0.7.0 — piattaforme gratuite ufficiali IT
+DeepSearch Personale v0.7.1
 
-CONTENUTO
-  index.mjs — Worker (stesso ID addon, stessa URL e token)
-  wrangler.toml — variabili non segrete
-  official.test.mjs — test per piattaforme gratuite e regressione
+CORREZIONE PUNTATA LE IENE DEL 1 DICEMBRE 2024 (S28E10)
 
-NOVITA
-  • Ricerca su 16 servizi/canali: RaiPlay, Mediaset Infinity, discovery+ / DMAX / Real Time / NOVE / Food Network, LA7, TV8, Pluto TV, Rakuten TV Gratis, Plex, ARTE, CHILI, Serially, Filmzie.
-  • Solo pagine ufficiali; i link di ricerca non dichiarano che il titolo sia disponibile.
-  • Programmi già verificati: collegamenti archivi e alcune puntate esatte de Le Iene.
-  • Verifica opzionale disponibilità gratuita in Italia tramite Watchmode (solo FREE/ADS); distingue serie e singoli episodi.
-  • Nessuna chiave necessaria per ricerca portali / archivi; torrent e TorBox invariati.
+- Data di trasmissione esatta 2024-12-01 anche se Cinemeta non la conosce.
+- Link ufficiale Mediaset Infinity verificato per la puntata integrale.
+- Protezione dalla temporanea indisponibilita' di Cinemeta, per Le Iene.
+- Tutte le sorgenti torrent gia' presenti conservate.
 
-PER RISULTATI VERIFICATI DA WATCHMODE (facoltativo)
-  Apri https://api.watchmode.com/requestApiKey/ e crea piano Developer GRATUITO (no carta); seleziona l'Italia.
-  Cloudflare → torrentaddon → Settings → Variables and Secrets → Add → Secret: WATCHMODE_API_KEY.
-  Non inserire MAI le chiavi nel repository GitHub. La quota gratuita NON è illimitata: 2.500 crediti/mese, ed è per uso non commerciale con attribuzione.
-  Senza chiave, gli stream torrent + link ai programmi noti e la pagina di ricerca continuano a funzionare.
+Per aggiornare GitHub, sostituisci SOLO il contenuto di index.mjs nel repository annalisazotti11/Torrentaddon e premi Commit changes. Wrangler.toml e' invariato: non e' necessario sostituirlo. Cloudflare pubblica automaticamente.
 
-INSTALLAZIONE
-  Su GitHub annalisazotti11/Torrentaddon: modificare (NON eliminare) index.mjs e wrangler.toml.
-  Salvare con Commit changes. In Cloudflare verificare Ready e versione attiva.
-  Il token e l'indirizzo Worker NON cambiano. Le configurazioni AiOStreams e i cataloghi Nuvio non vanno modificati.
+Attenzione: un externalUrl apre Mediaset Infinity nel browser, NON e' uno stream video MP4. AiOStreams potrebbe scartare i link ufficiali se richiede sempre risoluzione 1080p, lingua oppure stream di tipo debrid. Nuvio Desktop alpha potrebbe non supportarli. In caso di No streams found, verifica direttamente la pagina Mediaset:
+https://mediasetinfinity.mediaset.it/video/leiene/puntata-dell-1-dicembre_F313525401001001
 
-PAGINA WEB DI RICERCA
-  https://torrentaddon.annalisazotti11.workers.dev/<TUO_ADDON_TOKEN>/official/search?q=Le%20Iene
-  Il token rimane privato e non deve essere condiviso.
-
-LIMITAZIONI
-  Non è possibile importare automaticamente TUTTI i cataloghi ufficiali o riprodurre i loro video dentro Nuvio: i siti hanno DRM, diritti variabili, login, pubblicità e API non pubbliche. I link externalUrl aprono le pagine nel browser/app, se supportati dal client; il filtro AiOStreams potrebbe nascondere alcuni link quando limita a due i risultati. Le verifiche Watchmode delle serie sono per titolo, NON garantiscono la singola puntata. Per il live TV rimane la configurazione già esistente.
-
-TEST
-  node --check index.mjs
-  node --test official.test.mjs
-
-Fonti documentazione: https://stremio.github.io/stremio-addon-sdk/api/responses/stream.html ; https://api.watchmode.com/pricing ; https://api.watchmode.com/use-cases/imdb-tmdb-ids
+Test locali: node --test regression.test.mjs (eseguirli copiando nella stessa cartella del file e assicurando la corretta importazione).
