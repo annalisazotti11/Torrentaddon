@@ -1,9 +1,30 @@
-PATCH v0.1.1: replace the existing index.mjs file at the root of your GitHub repo with this one. Do NOT change wrangler.toml if you already corrected its main and name.
+DeepSearch Personale v0.2.0 — aggiornamento multi-indexer
 
-Protected diagnostic: use the same private addon base URL as before, but end it with /debug/movie/tt1727587.json.
+INSTALLAZIONE:
+1. Su GitHub apri il repository annalisazotti11/Torrentaddon.
+2. Carica index.mjs e wrangler.toml di questo ZIP SOSTITUENDO i due file omonimi gia presenti, non creare copie con nomi differenti.
+3. Commit changes sul branch main.
+4. Su Cloudflare verifica Deployments > Ready.
+5. Usa il tuo URL privato che termina con /debug/movie/tt1727587.json e controlla providers.
+6. Non modificare il manifest, token, configurazione AiOStreams o TorBox.
 
-Result shows metadata lookup, search queries, per-source HTTP errors, number of torrents read, and number accepted by filters. No API key, magnet or torrent hash is returned in diagnostics.
+FONTI:
+- Knaben (API v2) per film, serie e releases multilingue
+- EZTV (API IMDb) per serie
+- YTS (API IMDb) per film, base documentata da terzi e soggetta a variazioni
+- TheRarBg (JSON by IMDb) per film e serie
+- Torlock (Torznab RSS) per film e serie
+- Bitsearch DISABILITATO di default: nel test precedente rispondeva HTTP 429.
+- TORZNAB_FEEDS: secret Cloudflare facoltativo per fino a 4 indexer aggiuntivi.
+  Esempio: [{"url":"https://example.org/torznab/api","apikey":"CHIAVE"}]
+  Inserire solo API URL di cui ci si fida, mai password TorBox.
 
-This patch also handles Knaben bytes and liveSeeders and magnetUrl.
+RICERCA:
+- Riconoscimento film con titolo e anno.
+- Serie tramite episodio SxxEyy, NxEE o, quando la data ufficiale e nota dai metadati, data di trasmissione esatta.
+- Titoli originali e alternative con TMDB_API_KEY facoltativa.
+- Controllo infoHash e deduplica; formato compatibile con Service Wrap di AiOStreams.
+- /debug/... mostra le fonti che rispondono, il numero di risultati e gli errori.
 
-Never share the ADDON_TOKEN. Do not upload it to GitHub.
+LIMITI:
+Le API terze possono cambiare o rispondere 429/403. Questi provider non sono stati testati in tempo reale sul tuo Worker: servono prove tramite /debug dopo il deployment. Nessuna fonte assicura tutti i titoli. Ricerca solo contenuti per cui hai diritto di accesso.
