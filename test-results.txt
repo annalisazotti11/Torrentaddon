@@ -1,0 +1,58 @@
+TAP version 13
+# Subtest: Knaben field magnetUrl and bytes recognized; protected diagnostic identifies matching source
+ok 1 - Knaben field magnetUrl and bytes recognized; protected diagnostic identifies matching source
+  ---
+  duration_ms: 38.251412
+  type: 'test'
+  ...
+# Subtest: manifest exposes only stream resource
+ok 2 - manifest exposes only stream resource
+  ---
+  duration_ms: 2.500126
+  type: 'test'
+  ...
+# Subtest: hash from standard fields and magnet
+ok 3 - hash from standard fields and magnet
+  ---
+  duration_ms: 0.708895
+  type: 'test'
+  ...
+# Subtest: movie exact alternate titles, year and no accidental match
+ok 4 - movie exact alternate titles, year and no accidental match
+  ---
+  duration_ms: 2.604373
+  type: 'test'
+  ...
+# Subtest: episodes do not match incorrect episode or pack
+ok 5 - episodes do not match incorrect episode or pack
+  ---
+  duration_ms: 0.974204
+  type: 'test'
+  ...
+# Subtest: search deduplicates same infoHash, produces AIOStreams-compatible P2P stream
+ok 6 - search deduplicates same infoHash, produces AIOStreams-compatible P2P stream
+  ---
+  duration_ms: 25.247274
+  type: 'test'
+  ...
+# Subtest: worker protects all routes with a token
+ok 7 - worker protects all routes with a token
+  ---
+  duration_ms: 2.279335
+  type: 'test'
+  ...
+# Subtest: non-Latin alternative titles are preserved in matching
+ok 8 - non-Latin alternative titles are preserved in matching
+  ---
+  duration_ms: 0.982877
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 120.647906
