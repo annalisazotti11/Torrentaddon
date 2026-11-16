@@ -1,0 +1,12 @@
+{
+  "name": "deepsearch-personale",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Addon personalizzato Stremio/AIOStreams con torrent indexer e TorBox via Service Wrapping",
+  "scripts": {
+    "test": "node --test",
+    "dev": "npx wrangler dev",
+    "deploy": "npx wrangler deploy"
+  }
+}

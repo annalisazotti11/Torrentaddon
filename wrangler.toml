@@ -1,0 +1,11 @@
+name = "deepsearch-personale"
+main = "src/index.mjs"
+compatibility_date = "2026-11-01"
+workers_dev = true
+
+[vars]
+ENABLE_KNABEN = "true"
+ENABLE_BITSEARCH = "true"
+REQUIRE_YEAR = "true"
+MAX_QUERIES = "3"
+RESULT_LIMIT = "35"
