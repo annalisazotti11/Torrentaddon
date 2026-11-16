@@ -1,5 +1,6 @@
-name = "deepsearch-personale"
-main = "src/index.mjs"
+
+name = "torrentaddon"
+main = "index.mjs"
 compatibility_date = "2026-11-01"
 workers_dev = true
 
