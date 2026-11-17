@@ -11,7 +11,7 @@ const solid=`<li class="search-result"><div class="info"><h5><a href="/torrent/t
 const bit=`<main class="mx-auto"><div class="space-y-4"><div class="bg-white"><div class="items-start"><div class="flex-1"><a href="/torrent/123">Programma.Italiano.S15E04.1080p.WEB-DL.ITA</a><a href="magnet:?xt=urn:btih:${HASH}&amp;dn=Test">Magnet</a></div></div></div></div></main>`;
 
 test('v0.9.0, unchanged addon id and official stream protocol',()=>{
-  assert.equal(manifest.version,'0.9.0');assert.equal(manifest.id,'org.deepsearch.personale');
+  assert.equal(manifest.version,'1.0.0');assert.equal(manifest.id,'org.deepsearch.personale');
   assert.deepEqual(manifest.resources,['stream']);
 });
 test('BTDig: DHT search result hash, name, size',()=>{

@@ -10,7 +10,7 @@ const F={...disabled,OFFICIAL_IN_STREAMS:'false',EXTRA_SOURCE_QUERIES:'1'};
 const json=obj=>new Response(JSON.stringify(obj),{status:200,headers:{'Content-Type':'application/json'}});
 
 test('manifest remains same addon id, now v0.9.0',()=>{
- assert.equal(manifest.id,'org.deepsearch.personale');assert.equal(manifest.version,'0.9.0');
+ assert.equal(manifest.id,'org.deepsearch.personale');assert.equal(manifest.version,'1.0.0');
 });
 test('BitTorrented parses independently from its JSON API',()=>{
  const arr=parseBitTorrentedJSON({results:[{torrent_name:TITLE,torrent_infohash:HASH,torrent_total_size:2123456789,torrent_seeders:51},{torrent_name:'invalid',torrent_infohash:'xyz'}]});
