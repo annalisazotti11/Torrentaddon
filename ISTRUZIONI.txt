@@ -1,41 +1,59 @@
-DEEPSEARCH PERSONALE v0.8.0 - FONTI TORRENT + RICERCA TV ITALIANA
-16 novembre 2026
+DEEPSEARCH PERSONALE v0.9.0 — altre sorgenti torrent (17 novembre 2026)
+=================================================================
 
-CAMBIAMENTI
-- Tre nuovi adattatori per la ricerca di metadati torrent e magnet:
-  BTDig (indice DHT), SolidTorrents (ricerca HTML), BitSearch Web (HTML, in aggiunta alla sua API).
-- Abilitata anche la ricerca BitSearch API (una richiesta per ricerca, per rispettare le quote del piano gratuito documentato).
-- MasterChef Italia: aggiunte varianti del titolo italiano/inglese quando la serie è riconosciuta come versione italiana.
-- Ricerca delle serie: conserva sempre la query SxxEyy anche con MAX_QUERIES=5; per Le Iene mantiene prioritarie le date italiane.
-- Nomi file: riconosciuta anche la variante S15EP04, oltre a S15E04 e 15x04.
-- Fino a 10 feed opzionali Torznab (configurabili via Secret TORZNAB_FEEDS). Per tracker italiani con login o browser-challenge è necessario un feed autorizzato già funzionante; il Worker da solo non supera le protezioni.
-- Disattivati nel nuovo wrangler.toml gli indici che nell'ultima diagnostica hanno restituito 403/404/401, HTML non JSON o 429 ripetuti: UIndex, TheRarBg, Magnetz, TorrentProject, Nyaa. Restano nel codice e sono riattivabili.
-- Ridotto il numero di interrogazioni per episodio (MAX_QUERIES=5, EXTRA_SOURCE_QUERIES=2).
-- Sorgenti e link ufficiali Mediaset/RaiPlay/discovery+ già presenti sono preservati.
+Questo pacchetto aggiorna il TUO addon custom, senza installare altri addon
+su Nuvio e senza modificare TorBox, i filtri o gli altri profili AiOStreams.
 
-INSTALLAZIONE SU GITHUB, SENZA RICREARE IL WORKER
-1. Apri il repository esistente annalisazotti11/Torrentaddon su GitHub.
-2. Sostituisci index.mjs alla radice con il file di questo ZIP, usando esattamente il nome index.mjs. Fai commit.
-3. Sostituisci wrangler.toml alla radice con il file di questo ZIP. Fai commit.
-4. NON cancellare i due file prima di sostituirli e NON modificare ADDON_TOKEN.
-5. Su Cloudflare verifica che il Worker torrentaddon abbia un nuovo deployment Ready ATTIVO al 100%.
-6. Per testare: apri il percorso /<ADDON_TOKEN>/health: la versione deve essere 0.8.0.
-7. Per una puntata di cui conosci l'ID IMDb e stagione/episodio, usa /<ADDON_TOKEN>/debug/series/<ttID>:<stagione>:<episodio>.json e controlla received, accepted, error per fonte.
-8. Non reinstallare l'addon in Nuvio/AiOStreams se l'URL e il token sono invariati. In AiOStreams l'addon DeepSearch già configurato resta valido.
+CONTENUTO
+- index.mjs: codice completo dell'addon, nuova versione 0.9.0
+- wrangler.toml: configurazione con nuovi provider abilitati
+- new-indexers.test.mjs: regressioni della versione precedente
+- additional-sources.test.mjs: test delle nuove sorgenti e autenticazione
 
-LIMITI IMPORTANTI
-- Non è stata possibile la verifica delle risposte LIVE di BTDig, SolidTorrents e BitSearch da un Worker Cloudflare: i parser sono testati localmente con fixture realistiche ma i siti possono avere cambiato HTML, limitare l'accesso o applicare challenge antibot.
-- Aggiungere indici non garantisce la disponibilità di MasterChef o delle singole puntate.
-- Il risultato torrent contiene un infoHash. Per la riproduzione serve un file effettivamente disponibile e accessibile, oltre alle regole del proprio servizio debrid.
-- Per programmi protetti usare fonti autorizzate e rispettare i diritti di accesso.
-- In alcune piattaforme come Nuvio Desktop i link ufficiali externalUrl possono essere gestiti diversamente dai video riproducibili.
+PROVIDER AGGIUNTI
+A) BitTorrented (JSON public search; nessuna chiave)
+B) The RarBg Search (JSON public text search; nessuna chiave)
+C) TorBox Search (indice Orion/aggregati; richiede API key TorBox e piano abilitato)
+D) TSP Multi-Indexer (aggregatore di indici; richiede una chiave generata dal sito tspsearch.dev)
 
-FONTI DI IMPLEMENTAZIONE
-- BTDig: github.com/galaris/BTDigg-qBittorrent-plugin (codice Public Domain / Unlicense).
-- SolidTorrents: github.com/BurningMop/qBittorrent-Search-Plugins (codice MIT).
-- BitSearch: bitsearch.eu/api (documenta quota gratuita 200 req/giorno senza chiave).
-- Torznab: github.com/prajwalch/TorrentSearch/wiki/How-to-add-and-configure-Torznab-search-provider
+I provider del v0.8 rimangono. TorBox Search e TSP restano inattivi finche'
+non sono configurati i rispettivi Secret in Cloudflare.
 
-TEST LOCALI
-node --check index.mjs
-node --test new-indexers.test.mjs
+INSTALLAZIONE
+1. Nel repository GitHub annalisazotti11/Torrentaddon sostituisci i file
+   index.mjs e wrangler.toml, mantenendo esattamente questi nomi.
+2. NON cancellarli prima di sostituirli: evita build falliti.
+3. Esegui il commit. In Cloudflare verifica che il nuovo build sia Ready e
+   il nuovo deployment sia attivo al 100%.
+4. L'endpoint privato /health deve rispondere con version 0.9.0.
+5. NON cambiare ADDON_TOKEN. Non occorre reinstallare DeepSearch se manifest
+   e token rimangono invariati.
+
+CONFIGURAZIONE FACOLTATIVA (serve per far funzionare davvero i due aggregatori)
+Cloudflare -> Worker torrentaddon -> Settings -> Variables and Secrets:
+- TORBOX_SEARCH_API_KEY (Secret): tua API key TorBox da torbox.app/settings;
+  la disponibilita' della Search API dipende dal piano TorBox.
+- TSP_API_KEY (Secret): chiave da tspsearch.dev, servizio esterno.
+Non mettere mai le chiavi in index.mjs, wrangler.toml pubblico o messaggi.
+Se non imposti i Secret, l'addon usa comunque i nuovi BitTorrented e RarBg Search.
+
+DIAGNOSTICA
+Prova /debug/series/<IMDb_ID>:<STAGIONE>:<EPISODIO>.json dopo il
+TUO_TOKEN, per verificare: received, accepted, error per sorgente.
+Il JSON include optionalTorrentSources.torBoxSearchConfigured e
+optionalTorrentSources.tspSearchConfigured, solo come true/false.
+
+LIMITI
+I test sono simulazioni locali con risposte controllate. Non e' stato
+possibile interrogare i servizi reali da Cloudflare. Se un provider risponde
+403/429/401/404 o cambia schema, potra' restituire zero risultati; il
+resto dell'addon continua a funzionare. Nessun torrent specifico e' garantito.
+Per contenuti disponibili sui servizi ufficiali resta attiva la sezione
+RaiPlay / Mediaset Infinity / altri link gratuiti. Non ci sono bypass DRM.
+
+LINK ALLE DOCUMENTAZIONI
+TorBox Search: https://search-api.torbox.app (endpoint: /torrents/imdb:ID, /torrents/search/QUERY)
+TorBox Search indexer: https://github.com/Viren070/AIOStreams
+TSP: https://tspsearch.dev/
+BitTorrented adapter: https://github.com/OG-Huzzi/TorrentX
+TheRarBg API: https://therarbg.com/developers/

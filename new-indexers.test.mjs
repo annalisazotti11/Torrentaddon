@@ -4,14 +4,14 @@ import {manifest,parseBTDigHTML,parseSolidTorrentsHTML,parseBitSearchHTML,search
 
 const HASH='0123456789abcdef0123456789abcdef01234567';
 const TARGET={imdb:'tt9999999',type:'series',year:2025,aliases:['Programma Italiano'],season:15,episode:4,airedDate:'2026-01-08'};
-const FLAGS=Object.fromEntries(['KNABEN','BITSEARCH','BITSEARCH_WEB','EZTV','YTS','RARBG','TORLOCK','APIBAY','TORRENTSCSV','TORRENTPROJECT','NYAA','UINDEX','MAGNETZ','BT4G','BTDIG','SOLIDTORRENTS'].map(x=>['ENABLE_'+x,'false']));
+const FLAGS=Object.fromEntries(['KNABEN','BITSEARCH','BITSEARCH_WEB','EZTV','YTS','RARBG','TORLOCK','APIBAY','TORRENTSCSV','TORRENTPROJECT','NYAA','UINDEX','MAGNETZ','BT4G','BTDIG','SOLIDTORRENTS','BITTORRENTED','RARBG_SEARCH','TORBOX_SEARCH','TSP_SEARCH'].map(x=>['ENABLE_'+x,'false']));
 const F={...FLAGS,OFFICIAL_IN_STREAMS:'false'};
 const btdig=`<html><div class="one_result"><div class="torrent_name"><a href="/info/aaa">Programma.Italiano.S15E04.1080p.WEB-DL.ITA</a></div><span class="torrent_size">1.4&nbsp;GiB</span><a href="magnet:?xt=urn:btih:${HASH}&amp;dn=Test">magnet</a></div></html>`;
 const solid=`<li class="search-result"><div class="info"><h5><a href="/torrent/test">Programma.Italiano.S15E04.1080p.WEB-DL.ITA</a></h5></div><div class="stats"><div>foo</div></div><div class="links"><a class="dl-magnet" href="magnet:?xt=urn:btih:${HASH}&amp;dn=Test">Get</a></div></li>`;
 const bit=`<main class="mx-auto"><div class="space-y-4"><div class="bg-white"><div class="items-start"><div class="flex-1"><a href="/torrent/123">Programma.Italiano.S15E04.1080p.WEB-DL.ITA</a><a href="magnet:?xt=urn:btih:${HASH}&amp;dn=Test">Magnet</a></div></div></div></div></main>`;
 
-test('v0.8.0, unchanged addon id and official stream protocol',()=>{
-  assert.equal(manifest.version,'0.8.0');assert.equal(manifest.id,'org.deepsearch.personale');
+test('v0.9.0, unchanged addon id and official stream protocol',()=>{
+  assert.equal(manifest.version,'0.9.0');assert.equal(manifest.id,'org.deepsearch.personale');
   assert.deepEqual(manifest.resources,['stream']);
 });
 test('BTDig: DHT search result hash, name, size',()=>{
